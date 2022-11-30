@@ -2,33 +2,59 @@ import random
 
 
 class WordFinder:
-    """Word Finder: finds random words from a dictionary."""
+    """finds random words from dictionary.
 
-    #initializes instance to read file
+    >>> wf = WordFinder("simple.txt")
+    3 words read
+
+    >>> wf.random() in ["cat", "dog", "porcupine"]
+    True
+
+    >>> wf.random() in ["cat", "dog", "porcupine"]
+    True
+
+    >>> wf.random() in ["cat", "dog", "porcupine"]
+    True
+    """
     def __init__(self, filepath):
-        """Initializes instance of reading a file"""
+        """Create word finder from text"""
         file = open(filepath)
-        self.file_words = self.read_file(file)
+        self.file_words = self.convert(file)
         print(f"{len(self.file_words)} words read")
-        # self.count_words()
 
-    # returns number of words read
-    # def count_words(self):
+    def convert(self, file):
+        """Convert file into a text list"""
+        return [line.strip() for line in file]
 
-    # method to read file and pass to list.
-    def read_file(self, file):
-
-        # content_list = file.readlines()
-        return [line.strip() for line in file] # remove new line characters
-        # with open(self.filepath) as file:
-        #     content_list = file.readlines()
-        #     content_list = [line.strip("\n").split(" ") for line in content_list] # remove new line characters
-        #     flat_list = sum(content_list, []) # flattens
-        #     return [i for i in flat_list if i] # removes blanks
-
-
-    # method to provide random word from list
-    def random_word(self):
+    def random(self):
+        """Generate a random word from the text list"""
         return random.choice(self.file_words)
 
-# class RandomWordFinder(WordFinder):
+## favor shorter simpler variable names. Look into __repr__
+
+
+class SpecialWordFinder(WordFinder):
+    """Specialized WordFinder that excludes blank lines/comments.
+
+    >>> swf = SpecialWordFinder("complex.txt")
+    3 words read
+
+    >>> swf.random() in ["pear", "carrot", "kale"]
+    True
+
+    >>> swf.random() in ["pear", "carrot", "kale"]
+    True
+
+    >>> swf.random() in ["pear", "carrot", "kale"]
+    True
+    """
+    ## Inherit all methods, but insert our unique file. How can I do this?
+    # def __init__(self, filepath):
+    #     super().__init__(filepath)
+
+    # lines 50-52 were overthinking the problem
+
+
+    def convert(self, file):
+        return [word for word in super().convert(file) if word != "" and not word.startswith("#")]
+

@@ -13,13 +13,11 @@ class WordFinder:
 
     # method to read file and pass to list.
     def read_file(self):
-        # print(self.filepath)
         with open(self.filepath) as file:
             content_list = file.readlines()
-            content_list = [line.strip(" \n") for line in content_list] # remove new line characters
-            word_splits = [line.split(' ') for line in content_list]
-            [self.file_words.append(word) for word in word_splits]
-            flat_list = sum(self.file_words, []) # flattens
-            flat_list = [i for i in flat_list if i] # removes blanks
+            content_list = [line.strip(" \n").split(" ") for line in content_list] # remove new line characters
+            flat_list = sum(content_list, []) # flattens
+            [self.file_words.append(i) for i in flat_list if i] # removes blanks
+
 
     # method to provide random word from list
